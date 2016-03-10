@@ -9,7 +9,7 @@ public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"|
 | < LB : "{" >
 | < RB : "}" >
 | < SEMI: ";">
-|  < LIBRARY : "Library" >
+| < LIBRARY : "Library" >
 | <  WEBSITE : "WEBSITE" >
 | < BUILDING : "BUILDING" >
 | < TIMEOFYEAR: "TIMEOFYEAR" >

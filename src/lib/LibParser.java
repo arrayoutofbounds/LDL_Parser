@@ -65,6 +65,12 @@ public class LibParser implements LibParserConstants {
 
   final public void Content() throws ParseException {
     Website();
+    Building();
+  }
+
+  final public void Building() throws ParseException {
+    jj_consume_token(BUILDING);
+    jj_consume_token(BUILDING_NUMBER);
   }
 
   final public void Website() throws ParseException {

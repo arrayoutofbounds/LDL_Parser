@@ -1,4 +1,4 @@
 LIBRARY "Engineering Library"{
 WEBSITE "http://www.library.auckland.ac.nz/about-us/libraries/engineering"
-
+BUILDING 402
 }

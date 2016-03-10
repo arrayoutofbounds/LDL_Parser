@@ -3,7 +3,7 @@
  */options{
   BUILD_PARSER = false;  static = false;}PARSER_BEGIN(LibParser)package lib;
 public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
-   < LP : "(" >
+  < LP : "(" >
 | < RP : ")" >
 | < COMMA : "," >
 | < LB : "{" >

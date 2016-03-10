@@ -8,4 +8,9 @@ TIMEOFYEAR "Summer School" {
         HOURS Wed(9:00 AM to 8:00 PM)
         HOURS Sat,Sun(CLOSED)
     }
+    STAFF "Rod Chan" {
+		POSITION "Client Services Librarian"
+		TYPE Full-time
+		RATE $85000.00
+    }
 }

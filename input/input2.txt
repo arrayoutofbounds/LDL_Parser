@@ -6,7 +6,7 @@ LIBRARY "Engineering Library" {
         END Sunday, 28 February 2016
         HOURS Mon,Tue,Thu,Fri(9:00 AM to 5:00 PM)
         HOURS Wed(9:00 AM to 8:00 PM)
-	HOURS Sat,Sun(CLOSED)
+		HOURS Sat,Sun(CLOSED)
     }
     STAFF "Rod Chan" {
 		POSITION "Client Services Librarian"

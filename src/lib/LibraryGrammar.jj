@@ -13,6 +13,8 @@ public class LibParser{
 | < QUOTE : "\"" >
 | < UNDERSCORE : "_" >
 | < HYPHEN : "-" >
+| < DOLLAR : "$" >
+| < FULLSTOP: "." >
 | < LIBRARY : "LIBRARY" >
 | < WEBSITE : "WEBSITE" >
 | < BUILDING : "BUILDING" >
@@ -37,6 +39,8 @@ public class LibParser{
 | < TO : "to" >
 | < DAY : (< DIGIT >) | (< DIGIT >){2} >
 | < YEAR : (< DIGIT >){4} >
+| < WORK_TYPE : "Full-time" | "Part-time" >
+| < PAY : < DOLLAR > (((< DIGIT >)+ < FULLSTOP > (< DIGIT >){2}) |((< DIGIT >)+ < FULLSTOP > )) > 
 | < #PROTOCOL1 : "http://"  >
 | < #PROTOCOL2 : "https://"  >
 | < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >> // INCOMPLETE
@@ -57,6 +61,16 @@ void Content() :{}
 {	Website()
 	Building()
 	TimeofYear()
+	Staff()
+}
+
+void Staff() :{}
+{
+  < STAFF >< QUOTE > (Word())+ < QUOTE > <LB >
+  < POSITION > < QUOTE > (Word())+ < QUOTE > 
+  < TYPE > <WORK_TYPE >
+  < RATE ><PAY >
+  < RB >
 }
 
 void TimeofYear() : {}

@@ -1,0 +1,17 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */options{
+  BUILD_PARSER = false;  static = false;}PARSER_BEGIN(LibParser)package lib;
+public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
+  < LIBRARY : "Library" >
+| <  WEBSITE : "WEBSITE" >
+| < BUILDING : "BUILDING" >
+| < TIMEOFYEAR: "TIMEOFYEAR" >
+| < START: "START" >
+| < END : "END" >
+| < HOURS : "HOURS" >
+  }
+
+void Library() :{}
+{
+  "asdads"}

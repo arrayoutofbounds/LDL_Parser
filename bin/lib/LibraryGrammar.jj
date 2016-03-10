@@ -6,6 +6,7 @@ public class LibParser{
   < LP : "(" >
 | < RP : ")" >
 | < COMMA : "," >
+| < COLON : ":" >
 | < LB : "{" >
 | < RB : "}" >
 | < SEMI: ";">
@@ -33,11 +34,16 @@ public class LibParser{
 | < BUILDING_NUMBER : (< DIGIT >){3} >
 | < AM : "AM" >
 | < PM : "PM" >
+| < TO : "to" >
+| < DAY : (< DIGIT >) | (< DIGIT >){2} >
+| < YEAR : (< DIGIT >){4} >
 | < #PROTOCOL1 : "http://"  >
 | < #PROTOCOL2 : "https://"  >
 | < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >> // INCOMPLETE
 | < DAYS_SHORT : "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" >
 | < DAYS_LONG : "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" >
+| < MONTH : "January" | "February" |  "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December" >
+| < TIME : (< DIGIT >)< COLON >(< DIGIT >){2} >
 | < #LETTER : ["a"-"z","A"-"Z"] >
 | < WORD : (< LETTER > )+ > // this is to be kept last to avoid any matches}
 
@@ -48,7 +54,22 @@ void Library() :{int count = 0;}
    } }}
 
 void Content() :{}
-{	Website() Building()
+{	Website()
+	Building()
+	TimeofYear()
+}
+
+void TimeofYear() : {}
+{
+  < TIMEOFYEAR > < QUOTE > (Word())+ < QUOTE > <LB >
+  < START > StartandEnd()
+  < END > StartandEnd()
+  (< HOURS > <DAYS_SHORT > (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP >)+
+  < RB >
+}
+
+void StartandEnd() :{}
+{	<DAYS_LONG > <COMMA >  <DAY > <MONTH > <YEAR >
 }
 
 void Building() :{}
@@ -61,7 +82,7 @@ void Website() :{}
 
 // this has all the possible tokens that could match. 
 void Word() :{}
-{< DAYS_SHORT > | < DAYS_LONG > | < AM > | < PM > | < AUTHOR > | < TITLE > | < BOOK >
+{< DAYS_SHORT > | < DAYS_LONG > | < MONTH > | < AM > | < PM > | < AUTHOR > | < TITLE > | < BOOK > | < TO >
 | < BOOKCOLLECTION > | < RATE > | < TYPE > | < EMAIL > | < POSITION > | < STAFF >| < CLOSED > | < HOURS > | < END > | < START >
 | < TIMEOFYEAR > | < BUILDING > | < WEBSITE > | < LIBRARY > | < WORD > 
 }

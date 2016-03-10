@@ -95,7 +95,7 @@ public interface LibParserConstants {
     "\"{\"",
     "\"}\"",
     "\";\"",
-    "\"Library\"",
+    "\"LIBRARY\"",
     "\"WEBSITE\"",
     "\"BUILDING\"",
     "\"TIMEOFYEAR\"",

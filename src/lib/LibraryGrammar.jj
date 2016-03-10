@@ -1,7 +1,6 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{
-  BUILD_PARSER = false;  static = false;}PARSER_BEGIN(LibParser)package lib;
+ */options{  static = false;}PARSER_BEGIN(LibParser)package lib;
 public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
   < LP : "(" >
 | < RP : ")" >
@@ -9,8 +8,8 @@ public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"|
 | < LB : "{" >
 | < RB : "}" >
 | < SEMI: ";">
-| < LIBRARY : "Library" >
-| <  WEBSITE : "WEBSITE" >
+| < LIBRARY : "LIBRARY" >
+| < WEBSITE : "WEBSITE" >
 | < BUILDING : "BUILDING" >
 | < TIMEOFYEAR: "TIMEOFYEAR" >
 | < START: "START" >
@@ -40,6 +39,8 @@ public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"|
 
   }
 
-void Library() :{}
-{
-  < LIBRARY > (<DAY >)+}
+void Library() :{int count = 0;}
+{ (< LIBRARY >{count++;} <LB > <RB >)* <EOF > {
+   if (count > 1)   {
+     throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
+   } }}

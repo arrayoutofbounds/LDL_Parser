@@ -3,15 +3,43 @@
  */options{
   BUILD_PARSER = false;  static = false;}PARSER_BEGIN(LibParser)package lib;
 public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
-  < LIBRARY : "Library" >
+   < LP : "(" >
+| < RP : ")" >
+| < COMMA : "," >
+| < LB : "{" >
+| < RB : "}" >
+| < SEMI: ";">
+|  < LIBRARY : "Library" >
 | <  WEBSITE : "WEBSITE" >
 | < BUILDING : "BUILDING" >
 | < TIMEOFYEAR: "TIMEOFYEAR" >
 | < START: "START" >
 | < END : "END" >
 | < HOURS : "HOURS" >
+| < CLOSED : "CLOSED" >
+| < STAFF : "STAFF" >
+| < POSITION : "POSITION" >
+| < EMAIL : "EMAIL" >
+| < TYPE : "TYPE" >
+| < RATE : "RATE" >
+| < BOOKCOLLECTION : "BOOKCOLLECTION" >
+| < BOOK : "BOOK" >
+| < TITLE : "TITLE" >
+| < AUTHOR : "AUTHOR" >
+| < #DIGIT : ["0"-"9"] >
+| < BUILDING_NUMBER : (< DIGIT >){3} >
+| < AM : "AM" >
+| < PM : "PM" >
+| < DAY : "Mon" | "Tue" >
+| < HTTP : "http://" >
+| < HTTPS : "https://" >
+| < DAYS_SHORT : "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" >
+| < DAYS_LONG : "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" >
+| < #LETTER : ["a"-"z","A"-"Z"] >
+| < WORD : (< LETTER >)+ > // this is to be kept last to avoid any matches
+
   }
 
 void Library() :{}
 {
-  "asdads"}
+  < LIBRARY > (<DAY >)+}

@@ -1,13 +1,17 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */options{  static = false;}PARSER_BEGIN(LibParser)package lib;
-public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
+public class LibParser{
+  private int website_count = 0;}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
   < LP : "(" >
 | < RP : ")" >
 | < COMMA : "," >
 | < LB : "{" >
 | < RB : "}" >
 | < SEMI: ";">
+| < QUOTE : "\"" >
+| < UNDERSCORE : "_" >
+| < HYPHEN : "-" >
 | < LIBRARY : "LIBRARY" >
 | < WEBSITE : "WEBSITE" >
 | < BUILDING : "BUILDING" >
@@ -29,18 +33,31 @@ public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"|
 | < BUILDING_NUMBER : (< DIGIT >){3} >
 | < AM : "AM" >
 | < PM : "PM" >
-| < DAY : "Mon" | "Tue" >
-| < HTTP : "http://" >
-| < HTTPS : "https://" >
+| < #PROTOCOL1 : "http://"  >
+| < #PROTOCOL2 : "https://"  >
+| < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >> // INCOMPLETE
 | < DAYS_SHORT : "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" >
 | < DAYS_LONG : "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" >
 | < #LETTER : ["a"-"z","A"-"Z"] >
-| < WORD : (< LETTER >)+ > // this is to be kept last to avoid any matches
-
-  }
+| < WORD : (< LETTER > )+ > // this is to be kept last to avoid any matches}
 
 void Library() :{int count = 0;}
-{ (< LIBRARY >{count++;} <LB > <RB >)* <EOF > {
+{ (< LIBRARY >{count++;System.out.println("count is now " + count);} < QUOTE > (Word())+ < QUOTE ><LB > Content() <RB >)* <EOF > {
    if (count > 1)   {
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
-   } }}
+   } }}
+
+void Content() :{}
+{	Website()
+}
+
+void Website() :{}
+{	< WEBSITE ><URL >
+}
+
+// this has all the possible tokens that could match. 
+void Word() :{}
+{< DAYS_SHORT > | < DAYS_LONG > | < AM > | < PM > | < AUTHOR > | < TITLE > | < BOOK >
+| < BOOKCOLLECTION > | < RATE > | < TYPE > | < EMAIL > | < POSITION > | < STAFF >| < CLOSED > | < HOURS > | < END > | < START >
+| < TIMEOFYEAR > | < BUILDING > | < WEBSITE > | < LIBRARY > | < WORD > 
+}

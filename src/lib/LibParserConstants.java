@@ -23,61 +23,67 @@ public interface LibParserConstants {
   /** RegularExpression Id. */
   int SEMI = 10;
   /** RegularExpression Id. */
-  int LIBRARY = 11;
+  int QUOTE = 11;
   /** RegularExpression Id. */
-  int WEBSITE = 12;
+  int UNDERSCORE = 12;
   /** RegularExpression Id. */
-  int BUILDING = 13;
+  int HYPHEN = 13;
   /** RegularExpression Id. */
-  int TIMEOFYEAR = 14;
+  int LIBRARY = 14;
   /** RegularExpression Id. */
-  int START = 15;
+  int WEBSITE = 15;
   /** RegularExpression Id. */
-  int END = 16;
+  int BUILDING = 16;
   /** RegularExpression Id. */
-  int HOURS = 17;
+  int TIMEOFYEAR = 17;
   /** RegularExpression Id. */
-  int CLOSED = 18;
+  int START = 18;
   /** RegularExpression Id. */
-  int STAFF = 19;
+  int END = 19;
   /** RegularExpression Id. */
-  int POSITION = 20;
+  int HOURS = 20;
   /** RegularExpression Id. */
-  int EMAIL = 21;
+  int CLOSED = 21;
   /** RegularExpression Id. */
-  int TYPE = 22;
+  int STAFF = 22;
   /** RegularExpression Id. */
-  int RATE = 23;
+  int POSITION = 23;
   /** RegularExpression Id. */
-  int BOOKCOLLECTION = 24;
+  int EMAIL = 24;
   /** RegularExpression Id. */
-  int BOOK = 25;
+  int TYPE = 25;
   /** RegularExpression Id. */
-  int TITLE = 26;
+  int RATE = 26;
   /** RegularExpression Id. */
-  int AUTHOR = 27;
+  int BOOKCOLLECTION = 27;
   /** RegularExpression Id. */
-  int DIGIT = 28;
+  int BOOK = 28;
   /** RegularExpression Id. */
-  int BUILDING_NUMBER = 29;
+  int TITLE = 29;
   /** RegularExpression Id. */
-  int AM = 30;
+  int AUTHOR = 30;
   /** RegularExpression Id. */
-  int PM = 31;
+  int DIGIT = 31;
   /** RegularExpression Id. */
-  int DAY = 32;
+  int BUILDING_NUMBER = 32;
   /** RegularExpression Id. */
-  int HTTP = 33;
+  int AM = 33;
   /** RegularExpression Id. */
-  int HTTPS = 34;
+  int PM = 34;
   /** RegularExpression Id. */
-  int DAYS_SHORT = 35;
+  int PROTOCOL1 = 35;
   /** RegularExpression Id. */
-  int DAYS_LONG = 36;
+  int PROTOCOL2 = 36;
   /** RegularExpression Id. */
-  int LETTER = 37;
+  int URL = 37;
   /** RegularExpression Id. */
-  int WORD = 38;
+  int DAYS_SHORT = 38;
+  /** RegularExpression Id. */
+  int DAYS_LONG = 39;
+  /** RegularExpression Id. */
+  int LETTER = 40;
+  /** RegularExpression Id. */
+  int WORD = 41;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -95,6 +101,9 @@ public interface LibParserConstants {
     "\"{\"",
     "\"}\"",
     "\";\"",
+    "\"\\\"\"",
+    "\"_\"",
+    "\"-\"",
     "\"LIBRARY\"",
     "\"WEBSITE\"",
     "\"BUILDING\"",
@@ -116,9 +125,9 @@ public interface LibParserConstants {
     "<BUILDING_NUMBER>",
     "\"AM\"",
     "\"PM\"",
-    "<DAY>",
     "\"http://\"",
     "\"https://\"",
+    "<URL>",
     "<DAYS_SHORT>",
     "<DAYS_LONG>",
     "<LETTER>",

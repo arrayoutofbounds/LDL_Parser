@@ -89,7 +89,7 @@ void Content() :{
 	  TimeofYear(){timeofyear_count++;} |
 	  Staff(){staff_count++;} |
 	  BookCollection(){bookcollection_count++;}
-	)*
+	)+
 
 	// check in the end to ensure that there is one of them each
 	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry");
@@ -113,18 +113,46 @@ void Content() :{
 	}
 }
 
-void BookCollection() :{}
+void BookCollection() :{
+	int book_entries = 0;
+  }
 {
   < BOOKCOLLECTION > <WORD >  <LB >
-  (BookEntry())+
-  < RB >}
+  (BookEntry(){book_entries++;})+
+  < RB >
+  {
+    if (book_entries < 1)    {
+      throw new ParseException("Sorry, you must have ATLEAST ONE book entry in the collection");    }  }}
 
-void BookEntry() :{}
+//ANY ORDER
+void BookEntry() :{
+	int titles = 0;
+	int authors = 0;
+  }
 {
   < BOOK > <BOOK_DIGIT > <LB >
-   < TITLE > Book_Title()
-  < AUTHOR > <QUOTE > ( < AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > 
-  < RB >}
+   (     Title()     {
+       titles++;
+       if (titles >1)       {
+         throw new ParseException("Sorry you cannot have more than ONE title");       }
+     } |
+   	 Author()   	 {
+   	   authors++;   	 }
+   )*
+  < RB >
+  {
+    if (titles != 1)    {
+      throw new ParseException("Sorry you must have EXACTLY ONE title");    }
+    if(authors <1)    {
+      throw new ParseException("Sorry you must have ATLEAST ONE author");    }  }}
+
+void Author() :{}
+{
+  < AUTHOR > <QUOTE > ( < AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > }
+
+void Title() :{}
+{
+  < TITLE > Book_Title()}
 
 void Book_Title() :{}
 {
@@ -156,7 +184,7 @@ void Staff() :{
 	if (rate > 1)	{
 	  throw new ParseException("Sorry, you cannot have more than ONE rate");	}
    }
-  )*
+  )+
   < RB >
   {
     if (position != 1)    {

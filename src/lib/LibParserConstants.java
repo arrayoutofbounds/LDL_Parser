@@ -93,17 +93,37 @@ public interface LibParserConstants {
   /** RegularExpression Id. */
   int URL = 45;
   /** RegularExpression Id. */
-  int DAYS_SHORT = 46;
+  int LOCAL = 46;
   /** RegularExpression Id. */
-  int DAYS_LONG = 47;
+  int DOMAIN = 47;
   /** RegularExpression Id. */
-  int MONTH = 48;
+  int ANUMERIC = 48;
   /** RegularExpression Id. */
-  int TIME = 49;
+  int ANUMERIC_HYPHEN = 49;
   /** RegularExpression Id. */
-  int LETTER = 50;
+  int VALID_EMAIL = 50;
   /** RegularExpression Id. */
-  int WORD = 51;
+  int DAYS_SHORT = 51;
+  /** RegularExpression Id. */
+  int DAYS_LONG = 52;
+  /** RegularExpression Id. */
+  int MONTH = 53;
+  /** RegularExpression Id. */
+  int TIME = 54;
+  /** RegularExpression Id. */
+  int LETTER = 55;
+  /** RegularExpression Id. */
+  int BOOK_CHAR = 56;
+  /** RegularExpression Id. */
+  int BOOK_DIGIT = 57;
+  /** RegularExpression Id. */
+  int INITIAL = 58;
+  /** RegularExpression Id. */
+  int AUTHOR_NAME = 59;
+  /** RegularExpression Id. */
+  int WORD = 60;
+  /** RegularExpression Id. */
+  int BOOK_TITLE = 61;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -156,12 +176,22 @@ public interface LibParserConstants {
     "\"http://\"",
     "\"https://\"",
     "<URL>",
+    "<LOCAL>",
+    "<DOMAIN>",
+    "<ANUMERIC>",
+    "<ANUMERIC_HYPHEN>",
+    "<VALID_EMAIL>",
     "<DAYS_SHORT>",
     "<DAYS_LONG>",
     "<MONTH>",
     "<TIME>",
     "<LETTER>",
+    "<BOOK_CHAR>",
+    "<BOOK_DIGIT>",
+    "<INITIAL>",
+    "<AUTHOR_NAME>",
     "<WORD>",
+    "<BOOK_TITLE>",
   };
 
 }

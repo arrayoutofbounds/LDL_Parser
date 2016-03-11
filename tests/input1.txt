@@ -1,4 +1,4 @@
-LIBRARY "Engineering Library"{
+LIBRARY " "{
 WEBSITE "http://www.library.auckland.ac.nz/about-us/libraries/engineering"
 BUILDING 402
 TIMEOFYEAR "Summer School" {
@@ -10,7 +10,14 @@ TIMEOFYEAR "Summer School" {
     }
     STAFF "Rod Chan" {
 		POSITION "Client Services Librarian"
+		EMAIL rod@auckland.ac.nz
 		TYPE Full-time
 		RATE $85000.00
+    }
+    BOOKCOLLECTION "Fiction" {
+		BOOK 8jh30st2 {
+		    TITLE "Writing Compilers and Interpreters A Software Engineering Approach"
+		    AUTHOR "Mak, Ronald P."
+		}
     }
 }

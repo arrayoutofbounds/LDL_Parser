@@ -17,43 +17,7 @@ public class LibParser implements LibParserConstants {
       }
       jj_consume_token(LIBRARY);
               count++;System.out.println("count is now " + count);
-      jj_consume_token(QUOTE);
-      label_2:
-      while (true) {
-        Word();
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case LIBRARY:
-        case WEBSITE:
-        case BUILDING:
-        case TIMEOFYEAR:
-        case START:
-        case END:
-        case HOURS:
-        case CLOSED:
-        case STAFF:
-        case POSITION:
-        case EMAIL:
-        case TYPE:
-        case RATE:
-        case BOOKCOLLECTION:
-        case BOOK:
-        case TITLE:
-        case AUTHOR:
-        case AM:
-        case PM:
-        case TO:
-        case DAYS_SHORT:
-        case DAYS_LONG:
-        case MONTH:
-        case WORD:
-          ;
-          break;
-        default:
-          jj_la1[1] = jj_gen;
-          break label_2;
-        }
-      }
-      jj_consume_token(QUOTE);
+      jj_consume_token(WORD);
       jj_consume_token(LB);
       Content();
       jj_consume_token(RB);
@@ -70,86 +34,89 @@ public class LibParser implements LibParserConstants {
     Building();
     TimeofYear();
     Staff();
+    BookCollection();
   }
 
-  final public void Staff() throws ParseException {
-    jj_consume_token(STAFF);
-    jj_consume_token(QUOTE);
-    label_3:
+  final public void BookCollection() throws ParseException {
+    jj_consume_token(BOOKCOLLECTION);
+    jj_consume_token(WORD);
+    jj_consume_token(LB);
+    label_2:
     while (true) {
-      Word();
+      BookEntry();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LIBRARY:
-      case WEBSITE:
-      case BUILDING:
-      case TIMEOFYEAR:
-      case START:
-      case END:
-      case HOURS:
-      case CLOSED:
-      case STAFF:
-      case POSITION:
-      case EMAIL:
-      case TYPE:
-      case RATE:
-      case BOOKCOLLECTION:
       case BOOK:
-      case TITLE:
-      case AUTHOR:
-      case AM:
-      case PM:
-      case TO:
-      case DAYS_SHORT:
-      case DAYS_LONG:
-      case MONTH:
-      case WORD:
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
-        break label_3;
+        jj_la1[1] = jj_gen;
+        break label_2;
       }
     }
-    jj_consume_token(QUOTE);
+    jj_consume_token(RB);
+  }
+
+  final public void BookEntry() throws ParseException {
+    jj_consume_token(BOOK);
+    jj_consume_token(BOOK_DIGIT);
     jj_consume_token(LB);
-    jj_consume_token(POSITION);
+    jj_consume_token(TITLE);
+    Book_Title();
+    jj_consume_token(AUTHOR);
     jj_consume_token(QUOTE);
-    label_4:
+    jj_consume_token(AUTHOR_NAME);
+    jj_consume_token(COMMA);
+    label_3:
     while (true) {
-      Word();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LIBRARY:
-      case WEBSITE:
-      case BUILDING:
-      case TIMEOFYEAR:
-      case START:
-      case END:
-      case HOURS:
-      case CLOSED:
-      case STAFF:
-      case POSITION:
-      case EMAIL:
-      case TYPE:
-      case RATE:
-      case BOOKCOLLECTION:
-      case BOOK:
-      case TITLE:
-      case AUTHOR:
-      case AM:
-      case PM:
-      case TO:
-      case DAYS_SHORT:
-      case DAYS_LONG:
-      case MONTH:
-      case WORD:
+      case AUTHOR_NAME:
+        jj_consume_token(AUTHOR_NAME);
+        break;
+      case INITIAL:
+        jj_consume_token(INITIAL);
+        break;
+      default:
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case INITIAL:
+      case AUTHOR_NAME:
         ;
         break;
       default:
         jj_la1[3] = jj_gen;
-        break label_4;
+        break label_3;
       }
     }
     jj_consume_token(QUOTE);
+    jj_consume_token(RB);
+  }
+
+  final public void Book_Title() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case BOOK_TITLE:
+      jj_consume_token(BOOK_TITLE);
+      break;
+    case WORD:
+      jj_consume_token(WORD);
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+  }
+
+  final public void Staff() throws ParseException {
+    jj_consume_token(STAFF);
+    jj_consume_token(WORD);
+    jj_consume_token(LB);
+    jj_consume_token(POSITION);
+    jj_consume_token(WORD);
+    jj_consume_token(EMAIL);
+    jj_consume_token(VALID_EMAIL);
     jj_consume_token(TYPE);
     jj_consume_token(WORK_TYPE);
     jj_consume_token(RATE);
@@ -159,115 +126,84 @@ public class LibParser implements LibParserConstants {
 
   final public void TimeofYear() throws ParseException {
     jj_consume_token(TIMEOFYEAR);
-    jj_consume_token(QUOTE);
-    label_5:
-    while (true) {
-      Word();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LIBRARY:
-      case WEBSITE:
-      case BUILDING:
-      case TIMEOFYEAR:
-      case START:
-      case END:
-      case HOURS:
-      case CLOSED:
-      case STAFF:
-      case POSITION:
-      case EMAIL:
-      case TYPE:
-      case RATE:
-      case BOOKCOLLECTION:
-      case BOOK:
-      case TITLE:
-      case AUTHOR:
-      case AM:
-      case PM:
-      case TO:
-      case DAYS_SHORT:
-      case DAYS_LONG:
-      case MONTH:
-      case WORD:
-        ;
-        break;
-      default:
-        jj_la1[4] = jj_gen;
-        break label_5;
-      }
-    }
-    jj_consume_token(QUOTE);
+    jj_consume_token(WORD);
     jj_consume_token(LB);
     jj_consume_token(START);
     StartandEnd();
     jj_consume_token(END);
     StartandEnd();
-    label_6:
+    label_4:
     while (true) {
-      jj_consume_token(HOURS);
-      jj_consume_token(DAYS_SHORT);
-      label_7:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case COMMA:
-          ;
-          break;
-        default:
-          jj_la1[5] = jj_gen;
-          break label_7;
-        }
-        jj_consume_token(COMMA);
-        jj_consume_token(DAYS_SHORT);
-      }
-      jj_consume_token(LP);
+      Hours();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TIME:
-        jj_consume_token(TIME);
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case AM:
-          jj_consume_token(AM);
-          break;
-        case PM:
-          jj_consume_token(PM);
-          break;
-        default:
-          jj_la1[6] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        jj_consume_token(TO);
-        jj_consume_token(TIME);
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case AM:
-          jj_consume_token(AM);
-          break;
-        case PM:
-          jj_consume_token(PM);
-          break;
-        default:
-          jj_la1[7] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
+      case HOURS:
+        ;
         break;
-      case CLOSED:
-        jj_consume_token(CLOSED);
+      default:
+        jj_la1[5] = jj_gen;
+        break label_4;
+      }
+    }
+    jj_consume_token(RB);
+  }
+
+  final public void Hours() throws ParseException {
+    jj_consume_token(HOURS);
+    jj_consume_token(DAYS_SHORT);
+   System.out.println("image is " + token.image);
+    label_5:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case COMMA:
+        ;
+        break;
+      default:
+        jj_la1[6] = jj_gen;
+        break label_5;
+      }
+      jj_consume_token(COMMA);
+      jj_consume_token(DAYS_SHORT);
+    }
+    jj_consume_token(LP);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TIME:
+      jj_consume_token(TIME);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case AM:
+        jj_consume_token(AM);
+        break;
+      case PM:
+        jj_consume_token(PM);
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(TO);
+      jj_consume_token(TIME);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case AM:
+        jj_consume_token(AM);
+        break;
+      case PM:
+        jj_consume_token(PM);
         break;
       default:
         jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      jj_consume_token(RP);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case HOURS:
-        ;
-        break;
-      default:
-        jj_la1[9] = jj_gen;
-        break label_6;
-      }
+      break;
+    case CLOSED:
+      jj_consume_token(CLOSED);
+      break;
+    default:
+      jj_la1[9] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
-    jj_consume_token(RB);
+    jj_consume_token(RP);
   }
 
   final public void StartandEnd() throws ParseException {
@@ -288,88 +224,6 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(URL);
   }
 
-// this has all the possible tokens that could match. 
-  final public void Word() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case DAYS_SHORT:
-      jj_consume_token(DAYS_SHORT);
-      break;
-    case DAYS_LONG:
-      jj_consume_token(DAYS_LONG);
-      break;
-    case MONTH:
-      jj_consume_token(MONTH);
-      break;
-    case AM:
-      jj_consume_token(AM);
-      break;
-    case PM:
-      jj_consume_token(PM);
-      break;
-    case AUTHOR:
-      jj_consume_token(AUTHOR);
-      break;
-    case TITLE:
-      jj_consume_token(TITLE);
-      break;
-    case BOOK:
-      jj_consume_token(BOOK);
-      break;
-    case TO:
-      jj_consume_token(TO);
-      break;
-    case BOOKCOLLECTION:
-      jj_consume_token(BOOKCOLLECTION);
-      break;
-    case RATE:
-      jj_consume_token(RATE);
-      break;
-    case TYPE:
-      jj_consume_token(TYPE);
-      break;
-    case EMAIL:
-      jj_consume_token(EMAIL);
-      break;
-    case POSITION:
-      jj_consume_token(POSITION);
-      break;
-    case STAFF:
-      jj_consume_token(STAFF);
-      break;
-    case CLOSED:
-      jj_consume_token(CLOSED);
-      break;
-    case HOURS:
-      jj_consume_token(HOURS);
-      break;
-    case END:
-      jj_consume_token(END);
-      break;
-    case START:
-      jj_consume_token(START);
-      break;
-    case TIMEOFYEAR:
-      jj_consume_token(TIMEOFYEAR);
-      break;
-    case BUILDING:
-      jj_consume_token(BUILDING);
-      break;
-    case WEBSITE:
-      jj_consume_token(WEBSITE);
-      break;
-    case LIBRARY:
-      jj_consume_token(LIBRARY);
-      break;
-    case WORD:
-      jj_consume_token(WORD);
-      break;
-    default:
-      jj_la1[10] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
-  }
-
   /** Generated Token Manager. */
   public LibParserTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -379,7 +233,7 @@ public class LibParser implements LibParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[11];
+  final private int[] jj_la1 = new int[10];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -387,10 +241,10 @@ public class LibParser implements LibParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20000,0xfffe0000,0xfffe0000,0xfffe0000,0xfffe0000,0x80,0x0,0x0,0x1000000,0x800000,0xfffe0000,};
+      jj_la1_0 = new int[] {0x20000,0x80000000,0x0,0x0,0x0,0x800000,0x80,0x0,0x0,0x1000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x9c073,0x9c073,0x9c073,0x9c073,0x0,0x30,0x30,0x20000,0x0,0x9c073,};
+      jj_la1_1 = new int[] {0x0,0x0,0xc000000,0xc000000,0x30000000,0x0,0x0,0x30,0x30,0x400000,};
    }
 
   /** Constructor with InputStream. */
@@ -404,7 +258,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -418,7 +272,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -428,7 +282,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -438,7 +292,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -447,7 +301,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -456,7 +310,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -507,12 +361,12 @@ public class LibParser implements LibParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[52];
+    boolean[] la1tokens = new boolean[62];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 10; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -524,7 +378,7 @@ public class LibParser implements LibParserConstants {
         }
       }
     }
-    for (int i = 0; i < 52; i++) {
+    for (int i = 0; i < 62; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

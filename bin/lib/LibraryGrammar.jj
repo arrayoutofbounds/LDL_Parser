@@ -40,34 +40,59 @@ public class LibParser{
 | < DAY : (< DIGIT >) | (< DIGIT >){2} >
 | < YEAR : (< DIGIT >){4} >
 | < WORK_TYPE : "Full-time" | "Part-time" >
-| < PAY : < DOLLAR > (((< DIGIT >)+ < FULLSTOP > (< DIGIT >){2}) |((< DIGIT >)+ < FULLSTOP > )) > 
+| < PAY : < DOLLAR > (((< DIGIT >)+ < FULLSTOP > (< DIGIT >){2}) |((< DIGIT >)+ < FULLSTOP > )) >
 | < #PROTOCOL1 : "http://"  >
 | < #PROTOCOL2 : "https://"  >
-| < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >> // INCOMPLETE
+| < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >>
+| <# LOCAL : (< ANUMERIC >)+ (< FULLSTOP > < ANUMERIC >)* >
+| <# DOMAIN: (< ANUMERIC_HYPHEN >)+ (< FULLSTOP > < ANUMERIC_HYPHEN >)* >
+| <# ANUMERIC : (["a"-"z","A"-"Z","0"-"9"])+ >
+| <# ANUMERIC_HYPHEN : (["a"-"z","A"-"Z","0"-"9", "-"])+ >
+| < VALID_EMAIL: < LOCAL > "@" < DOMAIN >>
 | < DAYS_SHORT : "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" >
 | < DAYS_LONG : "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" >
 | < MONTH : "January" | "February" |  "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December" >
 | < TIME : (< DIGIT >)< COLON >(< DIGIT >){2} >
 | < #LETTER : ["a"-"z","A"-"Z"] >
-| < WORD : (< LETTER > )+ > // this is to be kept last to avoid any matches}
+| < #BOOK_CHAR : (< DIGIT >) | < LETTER >  >
+| < BOOK_DIGIT : (< BOOK_CHAR >){8} >
+| < INITIAL :  ["A"-"Z"] <FULLSTOP >>
+| < AUTHOR_NAME : ["A"-"Z"] (["a"-"z"])* >
+| < WORD : < QUOTE > (< LETTER > | " " )+ < QUOTE > > // this is to be kept last to avoid any matches
+| < BOOK_TITLE : < QUOTE > (< LETTER > | " " | < COLON > | < HYPHEN >)+ < QUOTE > >}
 
 void Library() :{int count = 0;}
-{ (< LIBRARY >{count++;System.out.println("count is now " + count);} < QUOTE > (Word())+ < QUOTE ><LB > Content() <RB >)* <EOF > {
+{ (< LIBRARY >{count++;System.out.println("count is now " + count);} <WORD > <LB > Content() <RB >)* <EOF > {
    if (count > 1)   {
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
    } }}
 
 void Content() :{}
-{	Website()
-	Building()
-	TimeofYear()
-	Staff()
+{	Website() Building() TimeofYear() Staff() BookCollection()
 }
+
+void BookCollection() :{}
+{
+  < BOOKCOLLECTION > <WORD >  <LB >
+  (BookEntry())+
+  < RB >}
+
+void BookEntry() :{}
+{
+  < BOOK > <BOOK_DIGIT > <LB >
+   < TITLE > Book_Title()
+  < AUTHOR > <QUOTE > ( < AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > 
+  < RB >}
+
+void Book_Title() :{}
+{
+  < BOOK_TITLE > | < WORD >}
 
 void Staff() :{}
 {
-  < STAFF >< QUOTE > (Word())+ < QUOTE > <LB >
-  < POSITION > < QUOTE > (Word())+ < QUOTE > 
+  < STAFF ><WORD > <LB >
+  < POSITION > <WORD >
+  < EMAIL > <VALID_EMAIL >
   < TYPE > <WORK_TYPE >
   < RATE ><PAY >
   < RB >
@@ -75,12 +100,18 @@ void Staff() :{}
 
 void TimeofYear() : {}
 {
-  < TIMEOFYEAR > < QUOTE > (Word())+ < QUOTE > <LB >
+  < TIMEOFYEAR ><WORD > <LB >
   < START > StartandEnd()
   < END > StartandEnd()
-  (< HOURS > <DAYS_SHORT > (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP >)+
+  (Hours())+
   < RB >
 }
+
+void Hours() :{}
+{
+ < HOURS > <DAYS_SHORT>{
+   System.out.println("image is " + token.image);
+ } (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP > }
 
 void StartandEnd() :{}
 {	<DAYS_LONG > <COMMA >  <DAY > <MONTH > <YEAR >
@@ -95,8 +126,9 @@ void Website() :{}
 }
 
 // this has all the possible tokens that could match. 
-void Word() :{}
+/*void Word() :{}
 {< DAYS_SHORT > | < DAYS_LONG > | < MONTH > | < AM > | < PM > | < AUTHOR > | < TITLE > | < BOOK > | < TO >
 | < BOOKCOLLECTION > | < RATE > | < TYPE > | < EMAIL > | < POSITION > | < STAFF >| < CLOSED > | < HOURS > | < END > | < START >
 | < TIMEOFYEAR > | < BUILDING > | < WEBSITE > | < LIBRARY > | < WORD > 
-}
+}
+*/

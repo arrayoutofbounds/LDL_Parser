@@ -89,7 +89,7 @@ void Content() :{
 	  TimeofYear(){timeofyear_count++;} |
 	  Staff(){staff_count++;} |
 	  BookCollection(){bookcollection_count++;}
-	)+
+	)*
 
 	// check in the end to ensure that there is one of them each
 	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry");
@@ -130,22 +130,90 @@ void Book_Title() :{}
 {
   < BOOK_TITLE > | < WORD >}
 
-void Staff() :{}
+// IN ANY ORDER
+void Staff() :{
+  int position = 0;
+  int email = 0;
+  int type = 0;
+  int rate = 0;
+  }
 {
   < STAFF ><WORD > <LB >
-  < POSITION > <WORD >
-  < EMAIL > <VALID_EMAIL >
-  < TYPE > <WORK_TYPE >
-  < RATE ><PAY >
+  (
+  Position(){
+    position++;
+    if (position > 1)    {
+      throw new ParseException("Sorry, you cannot have more than ONE position");    }
+   } |
+  Email(){email++;} |
+  Type(){
+    type++;
+    if (type > 1)    {
+      throw new ParseException("Sorry, you cannot have more than ONE type");    }
+   } |
+  Rate(){
+    rate++;
+	if (rate > 1)	{
+	  throw new ParseException("Sorry, you cannot have more than ONE rate");	}
+   }
+  )*
   < RB >
+  {
+    if (position != 1)    {
+      throw new ParseException("Sorry, you must have EXACTLY ONE position");    }
+    if (type != 1)
+    {
+      throw new ParseException("Sorry, you must have EXACTLY ONE type");
+    }
+    if (rate != 1)
+    {
+      throw new ParseException("Sorry, you must have EXACTLY ONE rate");
+    }
+    if(email<1)    {
+      throw new ParseException("Sorry, you must have ATLEAST ONE email");    }  }
 }
 
-void TimeofYear() : {}
+void Rate() :{}
+{
+  < RATE ><PAY >}
+
+void Type() :{}
+{
+  < TYPE > <WORK_TYPE >}
+
+void Position() :{}
+{
+  < POSITION > <WORD >}
+
+void Email() :{}
+{
+  < EMAIL > <VALID_EMAIL >}
+
+// FIXED ORDER 
+void TimeofYear() : {
+  int start = 0;
+  int end  = 0;
+  int hours = 0;
+  }
 {
   < TIMEOFYEAR ><WORD > <LB >
   < START > StartandEnd()
+  {
+    start++;
+    if (start > 1)    {		throw new ParseException("Sorry, you can only have ONE start");
+    }
+  }
   < END > StartandEnd()
-  (Hours())+
+    {
+    end++;
+    if (end > 1)
+    {
+		throw new ParseException("Sorry, you can only have ONE end");
+    }
+  }
+  (Hours(){hours++;})+  {	if (hours < 1)	{		throw new ParseException("Sorry you must have atleast ONE hours entry");
+	}
+  }
   < RB >
 }
 

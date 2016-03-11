@@ -40,6 +40,18 @@ public class LibParser implements LibParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case WEBSITE:
+      case BUILDING:
+      case TIMEOFYEAR:
+      case STAFF:
+      case BOOKCOLLECTION:
+        ;
+        break;
+      default:
+        jj_la1[1] = jj_gen;
+        break label_2;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case WEBSITE:
         Website();
             website_count++;
             if (website_count > 1)
@@ -68,21 +80,9 @@ public class LibParser implements LibParserConstants {
                            bookcollection_count++;
         break;
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case WEBSITE:
-      case BUILDING:
-      case TIMEOFYEAR:
-      case STAFF:
-      case BOOKCOLLECTION:
-        ;
-        break;
-      default:
-        jj_la1[2] = jj_gen;
-        break label_2;
       }
     }
                 if(website_count != 1)
@@ -179,56 +179,156 @@ public class LibParser implements LibParserConstants {
     }
   }
 
+// IN ANY ORDER
   final public void Staff() throws ParseException {
+  int position = 0;
+  int email = 0;
+  int type = 0;
+  int rate = 0;
     jj_consume_token(STAFF);
     jj_consume_token(WORD);
     jj_consume_token(LB);
-    jj_consume_token(POSITION);
-    jj_consume_token(WORD);
-    jj_consume_token(EMAIL);
-    jj_consume_token(VALID_EMAIL);
-    jj_consume_token(TYPE);
-    jj_consume_token(WORK_TYPE);
-    jj_consume_token(RATE);
-    jj_consume_token(PAY);
-    jj_consume_token(RB);
-  }
-
-  final public void TimeofYear() throws ParseException {
-    jj_consume_token(TIMEOFYEAR);
-    jj_consume_token(WORD);
-    jj_consume_token(LB);
-    jj_consume_token(START);
-    StartandEnd();
-    jj_consume_token(END);
-    StartandEnd();
     label_5:
     while (true) {
-      Hours();
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case HOURS:
+      case POSITION:
+      case EMAIL:
+      case TYPE:
+      case RATE:
         ;
         break;
       default:
         jj_la1[7] = jj_gen;
         break label_5;
       }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case POSITION:
+        Position();
+    position++;
+    if (position > 1)
+    {
+      {if (true) throw new ParseException("Sorry, you cannot have more than ONE position");}
     }
+        break;
+      case EMAIL:
+        Email();
+          email++;
+        break;
+      case TYPE:
+        Type();
+    type++;
+    if (type > 1)
+    {
+      {if (true) throw new ParseException("Sorry, you cannot have more than ONE type");}
+    }
+        break;
+      case RATE:
+        Rate();
+    rate++;
+        if (rate > 1)
+        {
+          {if (true) throw new ParseException("Sorry, you cannot have more than ONE rate");}
+        }
+        break;
+      default:
+        jj_la1[8] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    jj_consume_token(RB);
+    if (position != 1)
+    {
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE position");}
+    }
+    if (type != 1)
+    {
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE type");}
+    }
+    if (rate != 1)
+    {
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE rate");}
+    }
+    if(email<1)
+    {
+      {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE email");}
+    }
+  }
+
+  final public void Rate() throws ParseException {
+    jj_consume_token(RATE);
+    jj_consume_token(PAY);
+  }
+
+  final public void Type() throws ParseException {
+    jj_consume_token(TYPE);
+    jj_consume_token(WORK_TYPE);
+  }
+
+  final public void Position() throws ParseException {
+    jj_consume_token(POSITION);
+    jj_consume_token(WORD);
+  }
+
+  final public void Email() throws ParseException {
+    jj_consume_token(EMAIL);
+    jj_consume_token(VALID_EMAIL);
+  }
+
+// FIXED ORDER 
+  final public void TimeofYear() throws ParseException {
+  int start = 0;
+  int end  = 0;
+  int hours = 0;
+    jj_consume_token(TIMEOFYEAR);
+    jj_consume_token(WORD);
+    jj_consume_token(LB);
+    jj_consume_token(START);
+    StartandEnd();
+    start++;
+    if (start > 1)
+    {
+                {if (true) throw new ParseException("Sorry, you can only have ONE start");}
+    }
+    jj_consume_token(END);
+    StartandEnd();
+    end++;
+    if (end > 1)
+    {
+                {if (true) throw new ParseException("Sorry, you can only have ONE end");}
+    }
+    label_6:
+    while (true) {
+      Hours();
+           hours++;
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case HOURS:
+        ;
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+        break label_6;
+      }
+    }
+        if (hours < 1)
+        {
+                {if (true) throw new ParseException("Sorry you must have atleast ONE hours entry");}
+        }
     jj_consume_token(RB);
   }
 
   final public void Hours() throws ParseException {
     jj_consume_token(HOURS);
     jj_consume_token(DAYS_SHORT);
-    label_6:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
-        break label_6;
+        jj_la1[10] = jj_gen;
+        break label_7;
       }
       jj_consume_token(COMMA);
       jj_consume_token(DAYS_SHORT);
@@ -245,7 +345,7 @@ public class LibParser implements LibParserConstants {
         jj_consume_token(PM);
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[11] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -259,7 +359,7 @@ public class LibParser implements LibParserConstants {
         jj_consume_token(PM);
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -268,7 +368,7 @@ public class LibParser implements LibParserConstants {
       jj_consume_token(CLOSED);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -302,7 +402,7 @@ public class LibParser implements LibParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[12];
+  final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -310,10 +410,10 @@ public class LibParser implements LibParserConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20000,0x421c0000,0x421c0000,0x80000000,0x0,0x0,0x0,0x800000,0x80,0x0,0x0,0x1000000,};
+      jj_la1_0 = new int[] {0x20000,0x421c0000,0x421c0000,0x80000000,0x0,0x0,0x0,0x3c000000,0x3c000000,0x800000,0x80,0x0,0x0,0x1000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0xc000000,0xc000000,0x30000000,0x0,0x0,0x30,0x30,0x400000,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0xc000000,0xc000000,0x30000000,0x0,0x0,0x0,0x0,0x30,0x30,0x400000,};
    }
 
   /** Constructor with InputStream. */
@@ -327,7 +427,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -341,7 +441,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -351,7 +451,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -361,7 +461,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -370,7 +470,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -379,7 +479,7 @@ public class LibParser implements LibParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -435,7 +535,7 @@ public class LibParser implements LibParserConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 14; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {

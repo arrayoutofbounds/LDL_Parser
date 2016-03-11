@@ -62,13 +62,55 @@ public class LibParser{
 | < BOOK_TITLE : < QUOTE > (< LETTER > | " " | < COLON > | < HYPHEN >)+ < QUOTE > >}
 
 void Library() :{int count = 0;}
-{ (< LIBRARY >{count++;System.out.println("count is now " + count);} <WORD > <LB > Content() <RB >)* <EOF > {
+{ (< LIBRARY >{count++;} <WORD > <LB > Content() <RB >)* <EOF > {
    if (count > 1)   {
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
    } }}
 
-void Content() :{}
-{	Website() Building() TimeofYear() Staff() BookCollection()
+void Content() :{
+  int website_count,building_count,timeofyear_count,staff_count,bookcollection_count;
+  website_count = 0;
+  building_count = 0;
+  timeofyear_count = 0;
+  staff_count = 0;
+  bookcollection_count = 0;
+  }
+{	(
+	  Website(){
+	    website_count++;
+	    if (website_count > 1)	    {			throw new ParseException("Sorry, you cannot have more than one website entry");
+	    }
+	  } |
+	  Building(){
+	    building_count++;
+	    if (building_count > 1)	    {			throw new ParseException("Sorry, you cannot have more than one building entry");
+	    }
+	  } |
+	  TimeofYear(){timeofyear_count++;} |
+	  Staff(){staff_count++;} |
+	  BookCollection(){bookcollection_count++;}
+	)+
+
+	// check in the end to ensure that there is one of them each
+	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry");
+		}
+		if(building_count != 1)
+		{
+			throw new ParseException("Sorry, you must have ONE building entry");
+		}
+		if(!(timeofyear_count >= 1))
+		{
+			throw new ParseException("Sorry, you must have atleast ONE time of year entry");
+		}
+		if(!(staff_count >= 1))
+		{
+			throw new ParseException("Sorry, you must have atleast ONE staff entry");
+		}
+		if(!(bookcollection_count >= 1))
+		{
+			throw new ParseException("Sorry, you must have ONE book collection entry");
+		}
+	}
 }
 
 void BookCollection() :{}
@@ -109,9 +151,7 @@ void TimeofYear() : {}
 
 void Hours() :{}
 {
- < HOURS > <DAYS_SHORT>{
-   System.out.println("image is " + token.image);
- } (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP > }
+ < HOURS > <DAYS_SHORT> (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP > }
 
 void StartandEnd() :{}
 {	<DAYS_LONG > <COMMA >  <DAY > <MONTH > <YEAR >

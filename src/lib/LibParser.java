@@ -368,6 +368,18 @@ public class LibParser implements LibParserConstants {
                 {if (true) throw new ParseException("Sorry you must have atleast ONE hours entry");}
         }
     jj_consume_token(RB);
+    if(start != 1)
+    {
+      {if (true) throw new ParseException("Sorry you can only have EXACTLY one start");}
+    }
+    if(end != 1)
+    {
+      {if (true) throw new ParseException("Sorry, you can have EXACTLY one end");}
+    }
+    if(hours < 1)
+    {
+      {if (true) throw new ParseException("Sorry, you must have ATLEAST one hour");}
+    }
   }
 
   final public void Hours() throws ParseException {
@@ -466,7 +478,7 @@ public class LibParser implements LibParserConstants {
       jj_la1_0 = new int[] {0x20000,0x421c0000,0x421c0000,0x80000000,0x0,0x0,0x0,0x0,0x0,0x3c000000,0x3c000000,0x800000,0x80,0x0,0x0,0x1000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x3,0x3,0xc000000,0xc000000,0x30000000,0x0,0x0,0x0,0x0,0x30,0x30,0x400000,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x3,0x3,0x30000000,0x30000000,0xc0000000,0x0,0x0,0x0,0x0,0x30,0x30,0x1000000,};
    }
 
   /** Constructor with InputStream. */
@@ -583,7 +595,7 @@ public class LibParser implements LibParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[62];
+    boolean[] la1tokens = new boolean[64];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -600,7 +612,7 @@ public class LibParser implements LibParserConstants {
         }
       }
     }
-    for (int i = 0; i < 62; i++) {
+    for (int i = 0; i < 64; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

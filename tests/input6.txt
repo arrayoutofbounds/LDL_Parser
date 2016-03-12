@@ -1,4 +1,4 @@
-LIBRARY "Engineering Library"{
+LIBRARY " "{
 WEBSITE "http://www.library.auckland.ac.nz/about-us/libraries/engineering"
 BUILDING 402
 TIMEOFYEAR "Summer School" {
@@ -9,7 +9,6 @@ TIMEOFYEAR "Summer School" {
         HOURS Sat,Sun(CLOSED)
     }
     STAFF "Rod Chan" {
-		POSITION "Client Services Librarian"
 		EMAIL rod@auckland.ac.nz
 		TYPE Full-time
 		RATE $85000.00

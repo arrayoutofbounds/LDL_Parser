@@ -40,7 +40,9 @@ public class LibParser{
 | < DAY : (< DIGIT >) | (< DIGIT >){2} >
 | < YEAR : (< DIGIT >){4} >
 | < WORK_TYPE : "Full-time" | "Part-time" >
-| < PAY : < DOLLAR > (((< DIGIT >)+ < FULLSTOP > (< DIGIT >){2}) |((< DIGIT >)+ < FULLSTOP > )) >
+| <# PAYTYPE1 :(< DIGIT >)+ < FULLSTOP > (< DIGIT >){2} >
+| <# PAYTYPE2 :(< DIGIT >)+ > 
+| < PAY : < DOLLAR > (< PAYTYPE1 > | < PAYTYPE2 >) >
 | < #PROTOCOL1 : "http://"  >
 | < #PROTOCOL2 : "https://"  >
 | < URL : < QUOTE > (< PROTOCOL1 > | < PROTOCOL2 >) (["a"-"z","A"-"Z","_","-",".", "/"])* < QUOTE >>
@@ -243,6 +245,13 @@ void TimeofYear() : {
 	}
   }
   < RB >
+  {
+    if(start != 1)    {
+      throw new ParseException("Sorry you can only have EXACTLY one start");    }
+    if(end != 1)    {
+      throw new ParseException("Sorry, you can have EXACTLY one end");    }
+    if(hours < 1)    {
+      throw new ParseException("Sorry, you must have ATLEAST one hour");    }  }
 }
 
 void Hours() :{}

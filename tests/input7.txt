@@ -11,6 +11,7 @@ TIMEOFYEAR "Summer School" {
     STAFF "Rod Chan" {
 		POSITION "Client Services Librarian"
 		EMAIL rod@auckland.ac.nz
+		EMAIL a@A
 		TYPE Full-time
 		RATE $85000.00
     }

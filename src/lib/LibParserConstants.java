@@ -85,45 +85,49 @@ public interface LibParserConstants {
   /** RegularExpression Id. */
   int WORK_TYPE = 41;
   /** RegularExpression Id. */
-  int PAY = 42;
+  int PAYTYPE1 = 42;
   /** RegularExpression Id. */
-  int PROTOCOL1 = 43;
+  int PAYTYPE2 = 43;
   /** RegularExpression Id. */
-  int PROTOCOL2 = 44;
+  int PAY = 44;
   /** RegularExpression Id. */
-  int URL = 45;
+  int PROTOCOL1 = 45;
   /** RegularExpression Id. */
-  int LOCAL = 46;
+  int PROTOCOL2 = 46;
   /** RegularExpression Id. */
-  int DOMAIN = 47;
+  int URL = 47;
   /** RegularExpression Id. */
-  int ANUMERIC = 48;
+  int LOCAL = 48;
   /** RegularExpression Id. */
-  int ANUMERIC_HYPHEN = 49;
+  int DOMAIN = 49;
   /** RegularExpression Id. */
-  int VALID_EMAIL = 50;
+  int ANUMERIC = 50;
   /** RegularExpression Id. */
-  int DAYS_SHORT = 51;
+  int ANUMERIC_HYPHEN = 51;
   /** RegularExpression Id. */
-  int DAYS_LONG = 52;
+  int VALID_EMAIL = 52;
   /** RegularExpression Id. */
-  int MONTH = 53;
+  int DAYS_SHORT = 53;
   /** RegularExpression Id. */
-  int TIME = 54;
+  int DAYS_LONG = 54;
   /** RegularExpression Id. */
-  int LETTER = 55;
+  int MONTH = 55;
   /** RegularExpression Id. */
-  int BOOK_CHAR = 56;
+  int TIME = 56;
   /** RegularExpression Id. */
-  int BOOK_DIGIT = 57;
+  int LETTER = 57;
   /** RegularExpression Id. */
-  int INITIAL = 58;
+  int BOOK_CHAR = 58;
   /** RegularExpression Id. */
-  int AUTHOR_NAME = 59;
+  int BOOK_DIGIT = 59;
   /** RegularExpression Id. */
-  int WORD = 60;
+  int INITIAL = 60;
   /** RegularExpression Id. */
-  int BOOK_TITLE = 61;
+  int AUTHOR_NAME = 61;
+  /** RegularExpression Id. */
+  int WORD = 62;
+  /** RegularExpression Id. */
+  int BOOK_TITLE = 63;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -172,6 +176,8 @@ public interface LibParserConstants {
     "<DAY>",
     "<YEAR>",
     "<WORK_TYPE>",
+    "<PAYTYPE1>",
+    "<PAYTYPE2>",
     "<PAY>",
     "\"http://\"",
     "\"https://\"",

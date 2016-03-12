@@ -29,6 +29,7 @@ public class LibParser implements LibParserConstants {
    }
   }
 
+// ANY ORDER
   final public void Content() throws ParseException {
   int website_count,building_count,timeofyear_count,staff_count,bookcollection_count;
   website_count = 0;
@@ -95,11 +96,11 @@ public class LibParser implements LibParserConstants {
                 }
                 if(!(timeofyear_count >= 1))
                 {
-                        {if (true) throw new ParseException("Sorry, you must have atleast ONE time of year entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");}
                 }
                 if(!(staff_count >= 1))
                 {
-                        {if (true) throw new ParseException("Sorry, you must have atleast ONE staff entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE staff entry");}
                 }
                 if(!(bookcollection_count >= 1))
                 {
@@ -114,8 +115,6 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(LB);
     label_3:
     while (true) {
-      BookEntry();
-               book_entries++;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BOOK:
         ;
@@ -124,6 +123,8 @@ public class LibParser implements LibParserConstants {
         jj_la1[3] = jj_gen;
         break label_3;
       }
+      BookEntry();
+               book_entries++;
     }
     jj_consume_token(RB);
     if (book_entries < 1)

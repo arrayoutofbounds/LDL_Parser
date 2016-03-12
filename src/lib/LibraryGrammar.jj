@@ -69,6 +69,7 @@ void Library() :{int count = 0;}
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
    } }}
 
+// ANY ORDER
 void Content() :{
   int website_count,building_count,timeofyear_count,staff_count,bookcollection_count;
   website_count = 0;
@@ -102,11 +103,11 @@ void Content() :{
 		}
 		if(!(timeofyear_count >= 1))
 		{
-			throw new ParseException("Sorry, you must have atleast ONE time of year entry");
+			throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");
 		}
 		if(!(staff_count >= 1))
 		{
-			throw new ParseException("Sorry, you must have atleast ONE staff entry");
+			throw new ParseException("Sorry, you must have ATLEAST ONE staff entry");
 		}
 		if(!(bookcollection_count >= 1))
 		{
@@ -120,7 +121,7 @@ void BookCollection() :{
   }
 {
   < BOOKCOLLECTION > <WORD >  <LB >
-  (BookEntry(){book_entries++;})+
+  (BookEntry(){book_entries++;})*
   < RB >
   {
     if (book_entries < 1)    {

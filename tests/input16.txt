@@ -1,6 +1,6 @@
 LIBRARY "Engineering Library"{
 WEBSITE "http://www.library.auckland.ac.nz/about-us/libraries/engineering"
-BUILDING 402
+
 TIMEOFYEAR "Summer School" {
         START Tuesday, 5 January 2016
         END Sunday, 28 February 2016
@@ -9,11 +9,14 @@ TIMEOFYEAR "Summer School" {
         HOURS Sat,Sun(CLOSED)
     }
     STAFF "Rod Chan" {
-		POSITION "Client Services Librarian"
+    RATE $85000.00
+		POSITION 
+		"Client Services Librarian"
 		EMAIL           
 		rod@auckland.ac.nz
+		
+		
 		TYPE Full-time
-		RATE $85000.00
     }
     BOOKCOLLECTION "Fiction" {
 		BOOK 8jh30st2 {
@@ -21,4 +24,6 @@ TIMEOFYEAR "Summer School" {
 		    AUTHOR "Mak, Ronald P."
 		}
     }
+    
+ BUILDING 402
 }

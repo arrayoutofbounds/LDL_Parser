@@ -54,7 +54,7 @@ public class LibParser{
 | < DAYS_SHORT : "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" >
 | < DAYS_LONG : "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" >
 | < MONTH : "January" | "February" |  "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December" >
-| < TIME : (< DIGIT >)< COLON >(< DIGIT >){2} >
+| < TIME : (< DIGIT > | (< DIGIT >){2})< COLON >(< DIGIT >){2} >
 | < #LETTER : ["a"-"z","A"-"Z"] >
 | < #BOOK_CHAR : (< DIGIT >) | < LETTER >  >
 | < BOOK_DIGIT : (< BOOK_CHAR >){8} >
@@ -101,7 +101,7 @@ void Content() :{
 		{
 			throw new ParseException("Sorry, you must have ONE building entry");
 		}
-		if(!(timeofyear_count >= 1))
+		if(timeofyear_count < 1)
 		{
 			throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");
 		}
@@ -228,31 +228,34 @@ void TimeofYear() : {
   }
 {
   < TIMEOFYEAR ><WORD > <LB >
-  < START > StartandEnd()
-  {
+  (    < START >  {
     start++;
-    if (start > 1)    {		throw new ParseException("Sorry, you can only have ONE start");
+    if (start > 1)
+    {
+		throw new ParseException("Sorry, you can only have ONE START only. Cannot have multiple START.");
     }
-  }
-  < END > StartandEnd()
+  } StartandEnd())*
+
+  (    < END > StartandEnd()
     {
     end++;
     if (end > 1)
     {
-		throw new ParseException("Sorry, you can only have ONE end");
+		throw new ParseException("Sorry, you can only have ONE END only.Cannot have multiple END.");
     }
   }
-  (Hours(){hours++;})+  {	if (hours < 1)	{		throw new ParseException("Sorry you must have atleast ONE hours entry");
+)*
+  (Hours(){hours++;})*  {	if (hours < 1)	{		throw new ParseException("Sorry you must have atleast ONE HOUR entry. Cannot have less than one HOUR entry.");
 	}
   }
   < RB >
   {
     if(start != 1)    {
-      throw new ParseException("Sorry you can only have EXACTLY one start");    }
+      throw new ParseException("Sorry you must only have EXACTLY one START. Cannot have less than 1 START token.");    }
     if(end != 1)    {
-      throw new ParseException("Sorry, you can have EXACTLY one end");    }
+      throw new ParseException("Sorry, you must have EXACTLY one END token. Cannot have less than 1 END.");    }
     if(hours < 1)    {
-      throw new ParseException("Sorry, you must have ATLEAST one hour");    }  }
+      throw new ParseException("Sorry, you must have ATLEAST one HOUR entry.");    }  }
 }
 
 void Hours() :{}
@@ -265,6 +268,7 @@ void StartandEnd() :{}
 
 void Building() :{}
 {	< BUILDING > <BUILDING_NUMBER >
+
 }
 
 void Website() :{}

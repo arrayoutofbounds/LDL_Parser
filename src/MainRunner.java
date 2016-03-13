@@ -13,7 +13,7 @@ public class MainRunner {
 
 	public static void main(String[] args) {
 		
-		for (int i = 1; i <= 16; i++ ) {
+		for (int i = 1; i <= 40; i++ ) {
 			File f = new File("tests"+System.getProperty("file.separator")+"input"+i+".txt");
 			try {
 				FileInputStream is = new FileInputStream(f);

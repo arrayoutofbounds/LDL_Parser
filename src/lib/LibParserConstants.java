@@ -117,13 +117,13 @@ public interface LibParserConstants {
   /** RegularExpression Id. */
   int LETTER = 57;
   /** RegularExpression Id. */
-  int BOOK_CHAR = 58;
+  int AUTHOR_NAME = 58;
   /** RegularExpression Id. */
-  int BOOK_DIGIT = 59;
+  int BOOK_CHAR = 59;
   /** RegularExpression Id. */
-  int INITIAL = 60;
+  int BOOK_DIGIT = 60;
   /** RegularExpression Id. */
-  int AUTHOR_NAME = 61;
+  int INITIAL = 61;
   /** RegularExpression Id. */
   int WORD = 62;
   /** RegularExpression Id. */
@@ -192,10 +192,10 @@ public interface LibParserConstants {
     "<MONTH>",
     "<TIME>",
     "<LETTER>",
+    "<AUTHOR_NAME>",
     "<BOOK_CHAR>",
     "<BOOK_DIGIT>",
     "<INITIAL>",
-    "<AUTHOR_NAME>",
     "<WORD>",
     "<BOOK_TITLE>",
   };

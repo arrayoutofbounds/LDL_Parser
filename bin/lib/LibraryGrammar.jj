@@ -1,8 +1,7 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */options{  static = false;}PARSER_BEGIN(LibParser)package lib;
-public class LibParser{
-  private int website_count = 0;}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
+public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
   < LP : "(" >
 | < RP : ")" >
 | < COMMA : "," >
@@ -56,21 +55,23 @@ public class LibParser{
 | < MONTH : "January" | "February" |  "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December" >
 | < TIME : (< DIGIT > | (< DIGIT >){2})< COLON >(< DIGIT >){2} >
 | < #LETTER : ["a"-"z","A"-"Z"] >
+| < AUTHOR_NAME : ["A"-"Z"] (["a"-"z"])* >
 | < #BOOK_CHAR : (< DIGIT >) | < LETTER >  >
 | < BOOK_DIGIT : (< BOOK_CHAR >){8} >
 | < INITIAL :  ["A"-"Z"] <FULLSTOP >>
-| < AUTHOR_NAME : ["A"-"Z"] (["a"-"z"])* >
 | < WORD : < QUOTE > (< LETTER > | " " )+ < QUOTE > > // this is to be kept last to avoid any matches
 | < BOOK_TITLE : < QUOTE > (< LETTER > | " " | < COLON > | < HYPHEN >)+ < QUOTE > >}
 
+// root non terminal. The content method leads to the rest of the file.
 void Library() :{int count = 0;}
 { (< LIBRARY >{count++;} <WORD > <LB > Content() <RB >)* <EOF > {
    if (count > 1)   {
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
    } }}
 
-// ANY ORDER
+// ANY ORDER. This has all the top level non terminals
 void Content() :{
+  // counters for each of the methods below.
   int website_count,building_count,timeofyear_count,staff_count,bookcollection_count;
   website_count = 0;
   building_count = 0;
@@ -79,22 +80,22 @@ void Content() :{
   bookcollection_count = 0;
   }
 {	(
-	  Website(){
+	  Website(){ // website 
 	    website_count++;
-	    if (website_count > 1)	    {			throw new ParseException("Sorry, you cannot have more than one website entry");
+	    if (website_count > 1) // greater than 1 hence not allowed	    {			throw new ParseException("Sorry, you cannot have more than one website entry");
 	    }
 	  } |
-	  Building(){
+	  Building(){ // building
 	    building_count++;
-	    if (building_count > 1)	    {			throw new ParseException("Sorry, you cannot have more than one building entry");
+	    if (building_count > 1) // greater than one hence not allowde	    {			throw new ParseException("Sorry, you cannot have more than one building entry");
 	    }
 	  } |
-	  TimeofYear(){timeofyear_count++;} |
-	  Staff(){staff_count++;} |
-	  BookCollection(){bookcollection_count++;}
+	  TimeofYear(){timeofyear_count++;} | // time of the year
+	  Staff(){staff_count++;} | // staff
+	  BookCollection(){bookcollection_count++;} // book collection
 	)+
 
-	// check in the end to ensure that there is one of them each
+	// check in the end to ensure that there is one of website and building only. And one or more of the rest.
 	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry");
 		}
 		if(building_count != 1)
@@ -105,23 +106,24 @@ void Content() :{
 		{
 			throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");
 		}
-		if(!(staff_count >= 1))
+		if(staff_count < 1)
 		{
 			throw new ParseException("Sorry, you must have ATLEAST ONE staff entry");
 		}
-		if(!(bookcollection_count >= 1))
+		if(bookcollection_count < 1)
 		{
 			throw new ParseException("Sorry, you must have ONE book collection entry");
 		}
 	}
 }
 
+// book colleciton non terminal
 void BookCollection() :{
-	int book_entries = 0;
+	int book_entries = 0; // number of books
   }
 {
   < BOOKCOLLECTION > <WORD >  <LB >
-  (BookEntry(){book_entries++;})*
+  (BookEntry(){book_entries++;})* // making it 0 or more. THis means that if there are less than 1 entry there will be an error.
   < RB >
   {
     if (book_entries < 1)    {
@@ -133,7 +135,7 @@ void BookEntry() :{
 	int authors = 0;
   }
 {
-  < BOOK > <BOOK_DIGIT > <LB >
+  < BOOK >  bookid() <LB >
    (     Title()     {
        titles++;
        if (titles >1)       {
@@ -149,9 +151,17 @@ void BookEntry() :{
     if(authors <1)    {
       throw new ParseException("Sorry you must have ATLEAST ONE author");    }  }}
 
+
+void bookid() : {Token t;}
+{
+  <BOOK_DIGIT > | (t = <AUTHOR_NAME >  {
+    if((t.image).length() != 8)    {
+      throw new ParseException("Must have a book id that is 8 chars long only");    }  }
+  )}
+
 void Author() :{}
 {
-  < AUTHOR > <QUOTE > ( < AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > }
+  < AUTHOR > <QUOTE > ( <AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > }
 
 void Title() :{}
 {

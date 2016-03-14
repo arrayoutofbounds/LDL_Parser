@@ -2,7 +2,7 @@
 package lib;
 public class LibParser implements LibParserConstants {
 
-// root non terminal. The content method leads to the rest of the file.
+// ROOT non terminal. The content method leads to the rest of the file.
   final public void Library() throws ParseException {
                  int count = 0;
     label_1:
@@ -23,7 +23,7 @@ public class LibParser implements LibParserConstants {
       jj_consume_token(RB);
     }
     jj_consume_token(0);
-   if (count > 1)
+   if (count > 1) // not allowing more than 1 LIBRARY 
    {
      {if (true) throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");}
    }
@@ -91,27 +91,27 @@ public class LibParser implements LibParserConstants {
     }
                 if(website_count != 1)
                 {
-                        {if (true) throw new ParseException("Sorry, you must have ONE website entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ONE website entry. Cannot have less than ONE website.");}
                 }
                 if(building_count != 1)
                 {
-                        {if (true) throw new ParseException("Sorry, you must have ONE building entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ONE building entry. Cannot have less than ONE building.");}
                 }
                 if(timeofyear_count < 1)
                 {
-                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry. Cannot have less than one.");}
                 }
                 if(staff_count < 1)
                 {
-                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE staff entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE staff entry. Cannot have less than one.");}
                 }
                 if(bookcollection_count < 1)
                 {
-                        {if (true) throw new ParseException("Sorry, you must have ONE book collection entry");}
+                        {if (true) throw new ParseException("Sorry, you must have ONE book collection entry. Cannot have less than one.");}
                 }
   }
 
-// book colleciton non terminal
+// book collection non terminal
   final public void BookCollection() throws ParseException {
         int book_entries = 0;
     jj_consume_token(BOOKCOLLECTION);
@@ -133,16 +133,16 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(RB);
     if (book_entries < 1)
     {
-      {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE book entry in the collection");}
+      {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE book entry in the collection. Cannot have less than ONE.");}
     }
   }
 
-//ANY ORDER
+//ANY ORDER for book entry
   final public void BookEntry() throws ParseException {
         int titles = 0;
         int authors = 0;
     jj_consume_token(BOOK);
-    bookid();
+    BookId();
     jj_consume_token(LB);
     label_4:
     while (true) {
@@ -177,15 +177,16 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(RB);
     if (titles != 1)
     {
-      {if (true) throw new ParseException("Sorry you must have EXACTLY ONE title");}
+      {if (true) throw new ParseException("Sorry you must have EXACTLY ONE title. Cannot have less than one.");}
     }
     if(authors <1)
     {
-      {if (true) throw new ParseException("Sorry you must have ATLEAST ONE author");}
+      {if (true) throw new ParseException("Sorry you must have ATLEAST ONE author. Cannot have less than one.");}
     }
   }
 
-  final public void bookid() throws ParseException {
+// book id production to ensure it can be either id or author name.
+  final public void BookId() throws ParseException {
                  Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BOOK_DIGIT:
@@ -193,7 +194,7 @@ public class LibParser implements LibParserConstants {
       break;
     case AUTHOR_NAME:
       t = jj_consume_token(AUTHOR_NAME);
-    if((t.image).length() != 8)
+    if((t.image).length() != 8) // must have 8 CHARS
     {
       {if (true) throw new ParseException("Must have a book id that is 8 chars long only");}
     }
@@ -205,6 +206,7 @@ public class LibParser implements LibParserConstants {
     }
   }
 
+// Author 
   final public void Author() throws ParseException {
     jj_consume_token(AUTHOR);
     jj_consume_token(QUOTE);
@@ -237,11 +239,13 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(QUOTE);
   }
 
+// Title 
   final public void Title() throws ParseException {
     jj_consume_token(TITLE);
     Book_Title();
   }
 
+// Book title
   final public void Book_Title() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case BOOK_TITLE:
@@ -257,7 +261,7 @@ public class LibParser implements LibParserConstants {
     }
   }
 
-// IN ANY ORDER
+// IN ANY ORDER STAFF
   final public void Staff() throws ParseException {
   int position = 0;
   int email = 0;
@@ -317,19 +321,19 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(RB);
     if (position != 1)
     {
-      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE position");}
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE position. Cannot have any less.");}
     }
     if (type != 1)
     {
-      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE type");}
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE type. Cannot have any less.");}
     }
     if (rate != 1)
     {
-      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE rate");}
+      {if (true) throw new ParseException("Sorry, you must have EXACTLY ONE rate. Cannot have any less.");}
     }
     if(email<1)
     {
-      {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE email");}
+      {if (true) throw new ParseException("Sorry, you must have ATLEAST ONE emai. Cannot have any less.");}
     }
   }
 
@@ -429,6 +433,7 @@ public class LibParser implements LibParserConstants {
     }
   }
 
+// HOURS
   final public void Hours() throws ParseException {
     jj_consume_token(HOURS);
     jj_consume_token(DAYS_SHORT);
@@ -487,6 +492,7 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(RP);
   }
 
+// START and END
   final public void StartandEnd() throws ParseException {
     jj_consume_token(DAYS_LONG);
     jj_consume_token(COMMA);
@@ -495,11 +501,13 @@ public class LibParser implements LibParserConstants {
     jj_consume_token(YEAR);
   }
 
+// BUILDING
   final public void Building() throws ParseException {
     jj_consume_token(BUILDING);
     jj_consume_token(BUILDING_NUMBER);
   }
 
+//WEBSITE
   final public void Website() throws ParseException {
     jj_consume_token(WEBSITE);
     jj_consume_token(URL);

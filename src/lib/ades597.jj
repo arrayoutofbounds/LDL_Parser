@@ -1,6 +1,8 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = false;}PARSER_BEGIN(LibParser)package lib;
+ * author : Anmol Desai, ades597, 6160179
+ */options{
+  JDK_VERSION = "1.5";  static = false;}PARSER_BEGIN(LibParser)package lib;
 public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN :{
   < LP : "(" >
 | < RP : ")" >
@@ -62,10 +64,10 @@ public class LibParser{}PARSER_END(LibParser)SKIP :{  " "| "\r"| "\t"|
 | < WORD : < QUOTE > (< LETTER > | " " )+ < QUOTE > > // this is to be kept last to avoid any matches
 | < BOOK_TITLE : < QUOTE > (< LETTER > | " " | < COLON > | < HYPHEN >)+ < QUOTE > >}
 
-// root non terminal. The content method leads to the rest of the file.
+// ROOT non terminal. The content method leads to the rest of the file.
 void Library() :{int count = 0;}
 { (< LIBRARY >{count++;} <WORD > <LB > Content() <RB >)* <EOF > {
-   if (count > 1)   {
+   if (count > 1) // not allowing more than 1 LIBRARY    {
      throw new ParseException("Sorry, but you cannot have more than one LIBRARY in a input file");
    } }}
 
@@ -96,82 +98,86 @@ void Content() :{
 	)+
 
 	// check in the end to ensure that there is one of website and building only. And one or more of the rest.
-	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry");
+	{		if(website_count != 1)		{			throw new ParseException("Sorry, you must have ONE website entry. Cannot have less than ONE website.");
 		}
 		if(building_count != 1)
 		{
-			throw new ParseException("Sorry, you must have ONE building entry");
+			throw new ParseException("Sorry, you must have ONE building entry. Cannot have less than ONE building.");
 		}
 		if(timeofyear_count < 1)
 		{
-			throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry");
+			throw new ParseException("Sorry, you must have ATLEAST ONE time of year entry. Cannot have less than one.");
 		}
 		if(staff_count < 1)
 		{
-			throw new ParseException("Sorry, you must have ATLEAST ONE staff entry");
+			throw new ParseException("Sorry, you must have ATLEAST ONE staff entry. Cannot have less than one.");
 		}
 		if(bookcollection_count < 1)
 		{
-			throw new ParseException("Sorry, you must have ONE book collection entry");
+			throw new ParseException("Sorry, you must have ONE book collection entry. Cannot have less than one.");
 		}
 	}
 }
 
-// book colleciton non terminal
+// book collection non terminal
 void BookCollection() :{
 	int book_entries = 0; // number of books
   }
 {
   < BOOKCOLLECTION > <WORD >  <LB >
-  (BookEntry(){book_entries++;})* // making it 0 or more. THis means that if there are less than 1 entry there will be an error.
+  (BookEntry(){book_entries++;})* // making it 0 or more. THis means that if there are less than 1 entry there will be a custom error.
   < RB >
   {
     if (book_entries < 1)    {
-      throw new ParseException("Sorry, you must have ATLEAST ONE book entry in the collection");    }  }}
+      throw new ParseException("Sorry, you must have ATLEAST ONE book entry in the collection. Cannot have less than ONE.");    }  }}
 
-//ANY ORDER
+//ANY ORDER for book entry
 void BookEntry() :{
 	int titles = 0;
 	int authors = 0;
   }
 {
-  < BOOK >  bookid() <LB >
-   (     Title()     {
+  < BOOK >  BookId() <LB >
+   (     Title() // title for the book entry     {
        titles++;
        if (titles >1)       {
          throw new ParseException("Sorry you cannot have more than ONE title");       }
      } |
-   	 Author()   	 {
+   	 Author() // author for the book entry   	 {
    	   authors++;   	 }
    )*
   < RB >
+  // ensures that there is exactly 1 title and there is not no titles. Ensures more than ONE author
   {
     if (titles != 1)    {
-      throw new ParseException("Sorry you must have EXACTLY ONE title");    }
+      throw new ParseException("Sorry you must have EXACTLY ONE title. Cannot have less than one.");    }
     if(authors <1)    {
-      throw new ParseException("Sorry you must have ATLEAST ONE author");    }  }}
+      throw new ParseException("Sorry you must have ATLEAST ONE author. Cannot have less than one.");    }  }}
 
-
-void bookid() : {Token t;}
+// book id production to ensure it can be either id or author name.
+void BookId() : {Token t;}
 {
   <BOOK_DIGIT > | (t = <AUTHOR_NAME >  {
-    if((t.image).length() != 8)    {
+    if((t.image).length() != 8) // must have 8 CHARS    {
       throw new ParseException("Must have a book id that is 8 chars long only");    }  }
   )}
 
+// Author 
 void Author() :{}
 {
   < AUTHOR > <QUOTE > ( <AUTHOR_NAME > <COMMA > (<AUTHOR_NAME > | < INITIAL >)+) <QUOTE > }
 
+// Title 
 void Title() :{}
 {
   < TITLE > Book_Title()}
 
+// Book title
 void Book_Title() :{}
 {
   < BOOK_TITLE > | < WORD >}
 
-// IN ANY ORDER
+// IN ANY ORDER STAFF
 void Staff() :{
   int position = 0;
   int email = 0;
@@ -181,7 +187,7 @@ void Staff() :{
 {
   < STAFF ><WORD > <LB >
   (
-  Position(){
+  Position(){ 
     position++;
     if (position > 1)    {
       throw new ParseException("Sorry, you cannot have more than ONE position");    }
@@ -201,17 +207,17 @@ void Staff() :{
   < RB >
   {
     if (position != 1)    {
-      throw new ParseException("Sorry, you must have EXACTLY ONE position");    }
+      throw new ParseException("Sorry, you must have EXACTLY ONE position. Cannot have any less.");    }
     if (type != 1)
     {
-      throw new ParseException("Sorry, you must have EXACTLY ONE type");
+      throw new ParseException("Sorry, you must have EXACTLY ONE type. Cannot have any less.");
     }
     if (rate != 1)
     {
-      throw new ParseException("Sorry, you must have EXACTLY ONE rate");
+      throw new ParseException("Sorry, you must have EXACTLY ONE rate. Cannot have any less.");
     }
     if(email<1)    {
-      throw new ParseException("Sorry, you must have ATLEAST ONE email");    }  }
+      throw new ParseException("Sorry, you must have ATLEAST ONE emai. Cannot have any less.");    }  }
 }
 
 void Rate() :{}
@@ -268,27 +274,24 @@ void TimeofYear() : {
       throw new ParseException("Sorry, you must have ATLEAST one HOUR entry.");    }  }
 }
 
+// HOURS
 void Hours() :{}
 {
  < HOURS > <DAYS_SHORT> (< COMMA > <DAYS_SHORT >)* < LP > ((<TIME > (< AM > | < PM >) (< TO >) <TIME > (< AM > | < PM >)) | < CLOSED >) < RP > }
 
+// START and END
 void StartandEnd() :{}
 {	<DAYS_LONG > <COMMA >  <DAY > <MONTH > <YEAR >
 }
 
+// BUILDING
 void Building() :{}
 {	< BUILDING > <BUILDING_NUMBER >
 
 }
 
+//WEBSITE
 void Website() :{}
 {	< WEBSITE ><URL >
 }
-
-// this has all the possible tokens that could match. 
-/*void Word() :{}
-{< DAYS_SHORT > | < DAYS_LONG > | < MONTH > | < AM > | < PM > | < AUTHOR > | < TITLE > | < BOOK > | < TO >
-| < BOOKCOLLECTION > | < RATE > | < TYPE > | < EMAIL > | < POSITION > | < STAFF >| < CLOSED > | < HOURS > | < END > | < START >
-| < TIMEOFYEAR > | < BUILDING > | < WEBSITE > | < LIBRARY > | < WORD > 
-}
-*/
+

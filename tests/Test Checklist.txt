@@ -1,5 +1,7 @@
 SOFTENG 701 Assignment 1 Tests:
 
+// Tests 1-32 focus on parser actions, provide meaningful exception messages where possible (unless default is informative enough)
+
 // Original test
 1. PASS - generic test
 
@@ -51,9 +53,26 @@ SOFTENG 701 Assignment 1 Tests:
 
 // Spaces
 38. PASS - random spaces within LIBRARY tokens that do NOT specify "NO SPACES"
-39. PASS - lexical and synactic analysis only - 
-40. 
+39. PASS - lexical and synactic analysis only - 'nonsensical' EMAIL, times, month days and years
 
+// Ordering
+40. PASS - random LIBRARY entry ordering
+41. PASS - random STAFF entry ordering
+42. PASS - random BOOKCOLLECTION ordering
+
+// RATE
+43. FAIL - 1 digit cent value for RATE
+44. FAIL - 3 digit cent value for RATE
+
+// EMAIL
+45. FAIL - EMAIL cannot contain consecutive full stops
+46. FAIL - EMAIL cannot contain full stop as first or last character
+
+// Piazza - random ambiguities taken from Piazza
+47. PASS - multiple AUTHOR first names and initials, including a single-character first name of 'P' (i.e. NOT an initial)
+48. FAIL - first/last names must begin with capital letters
+
+// Hooray you made it   ~~~<(^.^)>~~~
 
 
 
